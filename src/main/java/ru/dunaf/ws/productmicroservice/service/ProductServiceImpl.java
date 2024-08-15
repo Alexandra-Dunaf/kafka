@@ -6,11 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
+import ru.dunaf.core.ProductCreatedEvent;
 import ru.dunaf.ws.productmicroservice.service.dto.CreateProductDto;
-import ru.dunaf.ws.productmicroservice.service.event.ProductCreatedEvent;
 
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @Service
