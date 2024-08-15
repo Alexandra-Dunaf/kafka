@@ -1,0 +1,40 @@
+server:
+#  без привязки к порту
+  port: 8090
+
+spring:
+  kafka:
+    producer:
+#      список брокеров
+      bootstrap-servers: localhost:9092, localhost:9094, localhost:9096
+#      кто будет делать сериализацию key в message
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+#      кто будет делать сериализацию value в message
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+#      ждем ответа от лидера и синхронизированных реплик, если acks: 0 - не ждем ответа, 1 - только от лидера
+      acks: all
+      properties:
+        enable:
+          idempotence: true
+#          в полете может быть 5 акнолиджмент, потом продюсер ждет
+        max:
+          in:
+            flight:
+              requests:
+                per:
+                  connection: 5
+        request:
+          timeout:
+            ms: 10000
+        linger:
+          ms: 0
+        delivery:
+          timeout:
+            ms: 20000
+#      сделать макс. 10 попыток отправить сообщение, если оно не доставляется
+#      retries: 10
+#      spring.kafka.producer.properties.retry.backoff.ms=1000 (с каким интервалом отправлять сообщение)
+#      spring.kafka.producer.properties.delivery.timeout.ms=60000 (макс время на повторы сообщения. Дефолт - 2 минуты)
+#      spring.kafka.producer.properties.linger.ms=0 (промежуток времени в течении которого накапливаем сообщения,
+#  а потом шлем их одним батчем. Дефолт 0)
+#      spring.kafka.producer.properties.request.timeout.ms=30000(как долго producer ждет сообщения от брокера)
